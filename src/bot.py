@@ -1,3 +1,4 @@
+import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
@@ -16,11 +17,35 @@ async def process_start_command(message: Message):
 
 
 # Этот хэндлер будет срабатывать на команду "/help"
-@dp.message(Command(commands=['help']))
+@dp.message(Command(commands=['help', 'r']))
 async def process_help_command(message: Message):
     await message.answer(
         'Напиши мне что-нибудь и в ответ '
         'я пришлю тебе твое сообщение'
+    )
+
+
+@dp.message(Command('sendTanya'))
+async def process_help_command(message: Message):
+    await bot.send_message(chat_id='-1002083916526',
+                           text=f'From: {message.from_user.username}\n'
+                                f'Text: {message.text}\n'
+                                f'\u2764\ufe0f'
+                           )
+    await bot.send_message(chat_id='223370456',
+                           text='Привет, я веселый бот! Давай дружить)) \n'
+                                '/be_friends'
+                           )
+
+
+@dp.message(Command('be_friends'))
+async def process_help_command(message: Message):
+    await bot.send_message(chat_id='-1002083916526',
+                           text=f'From: {message.from_user.username}\n'
+                                f'Text: {message.text}'
+                           )
+    await message.answer(
+        'Ураа:) Теперь мы друзья! \u2764\ufe0f'
     )
 
 
