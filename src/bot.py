@@ -1,7 +1,7 @@
 import asyncio
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
-from aiogram.types import Message, FSInputFile
+from aiogram.types import Message
 
 from config_reader import config
 
@@ -17,19 +17,22 @@ async def process_start_command(message: Message):
 
 
 # Этот хэндлер будет срабатывать на команду "/help"
-@dp.message(Command(commands=['help', 'r']))
+@dp.message(Command(commands=['help']))
 async def process_help_command(message: Message):
     await message.answer(
         'Напиши мне что-нибудь и в ответ '
         'я пришлю тебе твое сообщение'
     )
 
-# Этот хэндлер будет срабатывать на любые ваши текстовые сообщения,
-# кроме команд "/start" и "/help"
-@dp.message(Command('photo'))
-async def send_photo(message: Message):
-    photo = FSInputFile('/home/nickwiden/Downloads/Telegram Desktop/Cashflow 101 (1996)_#1/101/money/50.png', 'lasini')
-    await message.reply_photo(photo)
+
+@dp.message(F.photo)
+async def echo_photo(message: Message):
+    await message.reply_photo(message.photo[0].file_id)
+
+
+@dp.message(F.sticker)
+async def echo_sticker(message: Message):
+    await message.reply_sticker(message.sticker.file_id)
 
 
 # Этот хэндлер будет срабатывать на любые ваши текстовые сообщения,
