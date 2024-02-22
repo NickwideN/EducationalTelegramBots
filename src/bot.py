@@ -1,7 +1,7 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, FSInputFile
 
 from config_reader import config
 
@@ -24,29 +24,12 @@ async def process_help_command(message: Message):
         'я пришлю тебе твое сообщение'
     )
 
-
-@dp.message(Command('sendTanya'))
-async def process_help_command(message: Message):
-    await bot.send_message(chat_id='-1002083916526',
-                           text=f'From: {message.from_user.username}\n'
-                                f'Text: {message.text}\n'
-                                f'\u2764\ufe0f'
-                           )
-    await bot.send_message(chat_id='223370456',
-                           text='Привет, я веселый бот! Давай дружить)) \n'
-                                '/be_friends'
-                           )
-
-
-@dp.message(Command('be_friends'))
-async def process_help_command(message: Message):
-    await bot.send_message(chat_id='-1002083916526',
-                           text=f'From: {message.from_user.username}\n'
-                                f'Text: {message.text}'
-                           )
-    await message.answer(
-        'Ураа:) Теперь мы друзья! \u2764\ufe0f'
-    )
+# Этот хэндлер будет срабатывать на любые ваши текстовые сообщения,
+# кроме команд "/start" и "/help"
+@dp.message(Command('photo'))
+async def send_photo(message: Message):
+    photo = FSInputFile('/home/nickwiden/Downloads/Telegram Desktop/Cashflow 101 (1996)_#1/101/money/50.png', 'lasini')
+    await message.reply_photo(photo)
 
 
 # Этот хэндлер будет срабатывать на любые ваши текстовые сообщения,
