@@ -25,21 +25,12 @@ async def process_help_command(message: Message):
     )
 
 
-@dp.message(F.photo)
-async def echo_photo(message: Message):
-    await message.reply_photo(message.photo[0].file_id)
-
-
-@dp.message(F.sticker)
-async def echo_sticker(message: Message):
-    await message.reply_sticker(message.sticker.file_id)
-
-
-# Этот хэндлер будет срабатывать на любые ваши текстовые сообщения,
-# кроме команд "/start" и "/help"
 @dp.message()
 async def send_echo(message: Message):
-    await message.reply(text=message.text)
+    try:
+        await message.send_copy(chat_id=message.chat.id)
+    except TypeError:
+        await message.reply(text='Произошла ошибка. Метод send_copy не работает с таким типом данных')
 
 
 if __name__ == '__main__':
