@@ -1,12 +1,11 @@
-import asyncio
-from aiogram import Bot, Dispatcher, F
+from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from config_reader import config
+from config_reader import env
 
 # Создаем объекты бота и диспетчера
-bot = Bot(token=config.bot_token.get_secret_value())
+bot = Bot(token=env('BOT_TOKEN'))
 dp = Dispatcher()
 
 
