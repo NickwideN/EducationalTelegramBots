@@ -6,7 +6,7 @@ from aiogram.client.default import DefaultBotProperties
 from config_data.config import Config, load_config
 from handlers import other_handlers, user_handlers
 
-# инициализируем логгер
+# Initialize logger
 logger = logging.getLogger(__name__)
 
 
