@@ -2,7 +2,7 @@ import random
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command, CommandStart
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 
 from config_reader import env
 from user import get_user
@@ -16,7 +16,8 @@ ATTEMPT_LIMIT = 5
 @dp.message(CommandStart())
 async def process_start(message: Message):
     await message.answer('Привет. Давай поиграем в игру "Угадай число"!\n'
-                         'Чтобы узнать правила игры и список доступных команд, отправьте команду /help')
+                         'Чтобы узнать правила игры и список доступных команд, отправьте команду /help',
+                         reply_markup=ReplyKeyboardRemove())
 
 
 @dp.message(Command('help'))
