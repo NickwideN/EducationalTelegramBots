@@ -6,15 +6,14 @@ from aiogram.client.default import DefaultBotProperties
 
 from config_data.config import Config, load_config
 from handlers import user_handlers, other_handlers
-from keyboards.command_menu import get_command_menu
-
+from keyboards.command_menu import get_command_menu, set_main_menu
 
 # инициализируем логгер
 logger = logging.getLogger(__name__)
 
 
 async def main():
-    logging.basicConfig(level=logging.INFO,
+    logging.basicConfig(level=logging.DEBUG,
                         format='{filename}:{lineno} [{asctime}] #{levelname:8} - {name} - {message}',
                         style='{'
                         )
@@ -27,7 +26,9 @@ async def main():
 
     dp.include_routers(user_handlers.router, other_handlers.router)
 
-    await bot.set_my_commands(get_command_menu())
+    await set_main_menu(bot)
+    # Эта строчка по идее должна быть аналогом предыдущей, но почему то она не работает
+    # await bot.set_my_commands(get_command_menu())
 
     # Удаляем сообщения, которые пришли ранее
     await bot.delete_webhook(drop_pending_updates=True)
