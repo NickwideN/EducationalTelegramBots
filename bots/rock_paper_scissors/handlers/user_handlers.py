@@ -2,9 +2,9 @@ from aiogram import Router, F
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 
-from bots.rock_paper_scissors.lexicon.lexicon_ru import LEXICON_RU
-from bots.rock_paper_scissors.keyboards.keyboards import yes_no_keyboard, game_keyboard
-from bots.rock_paper_scissors.services.services import get_bot_choice, get_winner
+from lexicon.lexicon_ru import LEXICON_RU
+from keyboards.keyboards import yes_no_keyboard, game_keyboard
+from services.services import get_bot_choice, get_winner
 
 router = Router()
 

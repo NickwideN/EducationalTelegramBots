@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.types import Message
 
-from bots.rock_paper_scissors.lexicon.lexicon_ru import LEXICON_RU
+from lexicon.lexicon_ru import LEXICON_RU
 
 router = Router()
 
