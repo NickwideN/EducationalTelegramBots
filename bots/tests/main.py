@@ -1,6 +1,9 @@
-from aiogram import Bot, Dispatcher
+from datetime import datetime
+
+from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
-from aiogram.types import Message, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import Message, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, \
+    CallbackQuery
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 from config_reader import env
@@ -13,26 +16,20 @@ dp = Dispatcher()
 # Этот хэндлер будет срабатывать на команду "/start"
 @dp.message(Command(commands=["start"]))
 async def process_start_command(message: Message):
-
-    url_button_1: InlineKeyboardButton = InlineKeyboardButton(
-        text="Мой телеграм канал",
-        url="tg://resolve?domain=nickwiden_life"
+    button_1: InlineKeyboardButton = InlineKeyboardButton(
+        text="Кнопка 1",
+        callback_data="button_1"
     )
 
-    url_button_2: InlineKeyboardButton = InlineKeyboardButton(
-        text="Где то тут я учусь",
-        url="https://stepik.org/12092"
-    )
-
-    url_button_3: InlineKeyboardButton = InlineKeyboardButton(
-        text="Мой телеграм канал еще раз",
-        url="tg://resolve?domain=nickwiden_life"
+    button_2: InlineKeyboardButton = InlineKeyboardButton(
+        text="Кнопка 2",
+        callback_data="button_2"
     )
 
     # Создаем список списков с кнопками
     keyboard: list[list[InlineKeyboardButton]] = [
-        [url_button_1, url_button_2],
-        [url_button_3]
+        [button_1],
+        [button_2]
     ]
 
     # Создаем объект клавиатуры, добавляя в него кнопки
@@ -52,10 +49,33 @@ async def process_help_command(message: Message):
     )
 
 
-@dp.message()
-async def send_echo(message: Message):
-    await message.answer(text='Это бот для тестов, привет)')
+# хендлер, который обрабатывает callback button_1
+@dp.callback_query(F.data == "button_1")
+async def process_callback_button_1(callback: CallbackQuery):
+    # await callback.message.answer(text='Кнопка 1')
+    if callback.message.text != 'Вы нажали на кнопку 1':
+        await callback.message.edit_text(
+            'Вы нажали на кнопку 1',
+            reply_markup=callback.message.reply_markup
+        )
+    await callback.answer()
 
+
+# хендлер, который обрабатывает callback button_2
+@dp.callback_query(F.data == "button_2")
+async def process_callback_button_2(callback: CallbackQuery):
+    await callback.message.answer(text='Кнопка 2')
+    if callback.message.text != 'Вы нажали на кнопку 2':
+        await callback.message.edit_text(
+            'Вы нажали на кнопку 2',
+            reply_markup=callback.message.reply_markup
+        )
+    await callback.answer()
+
+
+@dp.message()
+async def process_other_masseges(message: Message):
+    await message.answer(text='Это бот для тестов, привет)')
 
 if __name__ == '__main__':
     dp.run_polling(bot)
