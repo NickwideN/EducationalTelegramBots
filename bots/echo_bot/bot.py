@@ -1,4 +1,4 @@
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
 from aiogram.types import Message
 
@@ -24,13 +24,22 @@ async def process_help_command(message: Message):
     )
 
 
+@dp.message(F.text == 'привет')
+async def send_f(message: Message):
+    print((~F.text)())
+    await message.reply(text='Зашли в send_f')
+
+
 @dp.message()
 async def send_echo(message: Message):
     try:
+        print(f'update_id: {message.message_id}')
         await message.send_copy(chat_id=message.chat.id)
+        await message.answer(f'Привет, {message.from_user.first_name} - ID - {message.from_user.id}!')
     except TypeError:
         await message.reply(text='Произошла ошибка. Метод send_copy не работает с таким типом данных')
 
 
 if __name__ == '__main__':
+    print('Бот запущен...')
     dp.run_polling(bot)
