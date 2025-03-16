@@ -1,0 +1,1 @@
+from .start.dialogs import dialog as start_dialog
