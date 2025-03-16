@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from aiogram import F, Router, html
 from aiogram.filters import CommandStart
 from aiogram.types import (
@@ -7,6 +9,9 @@ from aiogram.types import (
     Message,
 )
 from fluentogram import TranslatorRunner
+
+if TYPE_CHECKING:
+    from locales.stub import TranslatorRunner
 
 # Инициализируем роутер уровня модуля
 router = Router()
